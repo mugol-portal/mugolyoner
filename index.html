@@ -282,9 +282,18 @@
         .jokers { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; justify-content: center; }
         .joker-btn {
             background: linear-gradient(145deg, #16161e, #222); border: 2px solid #f4c542; color: #f4c542;
-            padding: 6px 10px; border-radius: 20px; font-weight: 900; font-size: 0.75rem; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05); transition: 0.3s; text-transform: uppercase;
+            padding: 0; border-radius: 50%; font-weight: 900; font-size: 0.75rem; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05); transition: 0.3s;
+            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            position: relative; flex-shrink: 0;
         }
+        .joker-btn .joker-icon { font-size: 1.25rem; line-height: 1; }
+        .joker-btn .joker-price {
+            position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+            font-size: 0.55rem; font-weight: 900; background: #2ecc71; color: #000;
+            padding: 1px 5px; border-radius: 8px; white-space: nowrap;
+        }
+        .joker-btn .joker-price:empty { display: none; }
         .joker-btn:hover:not(:disabled) { background: #f4c542; color: #000; box-shadow: 0 0 15px rgba(244, 197, 66, 0.6); transform: translateY(-2px); }
         .joker-btn:active { transform: scale(0.95); }
         .joker-btn:disabled { background: #222; border-color: #444; color: #555; cursor: not-allowed; box-shadow: none; opacity: 0.5; }
@@ -648,21 +657,34 @@ body::before, body::after { content: none !important; display: none !important; 
 @keyframes prizePulse { 0%,100% { transform: scale(1.08); } 50% { transform: scale(1.13); } }
 .prize-item.safe { color: var(--app-text); opacity: 1; text-shadow: none; font-weight: 900; }
 
-/* Joker butonları */
+/* Joker butonları — sadece ikon */
+.jokers { gap: 10px !important; }
 .joker-btn {
     background: var(--app-surface) !important;
     border: 2px solid var(--app-border) !important; color: var(--app-primary) !important;
     box-shadow: 0 4px 12px rgba(31,45,94,0.08) !important;
-    text-shadow: none; border-radius: 16px !important; transition: all 0.2s ease;
+    text-shadow: none; border-radius: 50% !important; transition: all 0.2s ease;
+    width: 48px !important; height: 48px !important; padding: 0 !important;
+    display: flex !important; align-items: center; justify-content: center;
+    position: relative; flex-shrink: 0;
 }
+.joker-btn .joker-icon { font-size: 1.25rem; line-height: 1; filter: none; }
+.joker-btn .joker-price {
+    position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%);
+    font-size: 0.55rem; font-weight: 900; letter-spacing: 0.2px;
+    background: var(--app-success); color: #fff; padding: 1px 5px; border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25); white-space: nowrap;
+}
+.joker-btn .joker-price:empty { display: none; }
 .joker-btn:hover:not(:disabled) {
-    background: var(--app-primary) !important; color: #fff !important; border-color: var(--app-primary) !important;
+    background: var(--app-primary) !important; border-color: var(--app-primary) !important;
     transform: translateY(-2px); box-shadow: 0 8px 18px rgba(47,107,255,0.35) !important;
 }
+.joker-btn:hover:not(:disabled) .joker-icon { filter: brightness(0) invert(1); }
 .joker-btn:active:not(:disabled) { transform: translateY(0); }
-.joker-btn:disabled { background: var(--app-surface2) !important; border-color: var(--app-border) !important; color: var(--app-text-soft) !important; opacity: 0.6; }
-.joker-buy { background: linear-gradient(135deg, var(--app-success), #0f9d64) !important; border-color: var(--app-success) !important; color: #fff !important; opacity: 1 !important; }
-.joker-buy:hover:not(:disabled) { box-shadow: 0 8px 18px rgba(23,185,120,0.4) !important; }
+.joker-btn:disabled { background: var(--app-surface2) !important; border-color: var(--app-border) !important; opacity: 0.5; }
+.joker-buy { background: var(--app-surface) !important; border-color: var(--app-success) !important; opacity: 1 !important; }
+.joker-buy:hover:not(:disabled) { background: var(--app-success) !important; border-color: var(--app-success) !important; box-shadow: 0 8px 18px rgba(23,185,120,0.4) !important; }
 
 /* Zamanlayıcı */
 .timer-circle {
@@ -1213,10 +1235,10 @@ html[data-app-tema="aurora"] .glass-card {
             <div class="game-header-info">
                 <div class="joker-timer-row">
                     <div class="jokers">
-                        <button class="joker-btn" id="btn-joker-50" onclick="joker50Kullan()">%50 Joker</button>
-                        <button class="joker-btn" id="btn-joker-degistir" onclick="jokerDegistirKullan()">🔄 Değiştir</button>
-                        <button class="joker-btn" id="btn-joker-cift" onclick="jokerCiftCevapKullan()">x2 Cevap</button>
-                        <button class="joker-btn audience-btn" id="btn-joker-seyirci" onclick="jokerSeyirciKullan()">👥 Seyirci</button>
+                        <button class="joker-btn" id="btn-joker-50" onclick="joker50Kullan()" title="%50 Joker"><span class="joker-icon">✂️</span><span class="joker-price"></span></button>
+                        <button class="joker-btn" id="btn-joker-degistir" onclick="jokerDegistirKullan()" title="Değiştir"><span class="joker-icon">🔄</span><span class="joker-price"></span></button>
+                        <button class="joker-btn" id="btn-joker-cift" onclick="jokerCiftCevapKullan()" title="X2 Cevap"><span class="joker-icon">✌️</span><span class="joker-price"></span></button>
+                        <button class="joker-btn audience-btn" id="btn-joker-seyirci" onclick="jokerSeyirciKullan()" title="Seyirci"><span class="joker-icon">👥</span><span class="joker-price"></span></button>
                     </div>
                     <div class="timer-circle" id="timer">60</div>
                 </div>
@@ -1413,9 +1435,10 @@ html[data-app-tema="aurora"] .glass-card {
 
         function setJokerButtonState(type, btnId, defaultText) {
             let btn = document.getElementById(btnId);
-            if(jokersThisQuestion[type]) { btn.disabled = true; btn.innerText = defaultText; btn.classList.remove('joker-buy'); } 
-            else if (jokersUsed[type]) { btn.disabled = false; btn.innerText = `💰 ${JOKER_PRICES[type] / 1000}K`; btn.classList.add('joker-buy'); } 
-            else { btn.disabled = false; btn.innerText = defaultText; btn.classList.remove('joker-buy'); }
+            let priceEl = btn.querySelector('.joker-price');
+            if(jokersThisQuestion[type]) { btn.disabled = true; priceEl.innerText = ''; btn.classList.remove('joker-buy'); } 
+            else if (jokersUsed[type]) { btn.disabled = false; priceEl.innerText = `${JOKER_PRICES[type] / 1000}K`; btn.classList.add('joker-buy'); } 
+            else { btn.disabled = false; priceEl.innerText = ''; btn.classList.remove('joker-buy'); }
         }
 
         function jokerButonlariniGuncelle() {
